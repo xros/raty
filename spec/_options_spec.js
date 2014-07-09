@@ -1,18 +1,13 @@
-describe('options', function() {
+describe('#options', function() {
   beforeEach(function() {
     this.el = Helper.create('#el');
   });
 
-  afterEach(function() {
-    Helper.clear();
-  });
-
   it ('has the right default values', function() {
     // given
-    var raty = $.fn.raty;
 
     // when
-    var opt = raty.defaults;
+    var opt = $.fn.raty.defaults;
 
     // then
     expect(opt.cancel).toBeFalsy();
@@ -48,20 +43,5 @@ describe('options', function() {
     expect(opt.targetText).toEqual('');
     expect(opt.targetType).toEqual('hint');
     expect(opt.width).toBeUndefined();
-  });
-
-  describe('#starType', function() {
-    context('when actived', function() {
-      it('disable the width property', function() {
-        // given
-        var self = this.el;
-
-        // when
-        self.raty({ starType: 'i' });
-
-        // then
-        expect(self[0].style.width).toEqual('');
-      });
-    });
   });
 });
