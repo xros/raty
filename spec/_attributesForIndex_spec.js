@@ -3,36 +3,14 @@ describe('#_attributesForIndex', function() {
     this.el = Helper.create('#el');
   });
 
-  it ('sets title with _getHint and given index', function() {
-    // given
-    var
-      element  = this.el[0],
-      hint     = 'double',
-      options  = {},
-      index    = 1,
-      instance = new Raty(element, options);
-
-    instance.opt.starType = 'i';
-
-    spyOn(Raty.prototype, '_getHint').and.returnValue(hint);
-
-    // when
-    var attributes = instance._attributesForIndex(index);
-
-    // then
-    expect(attributes.title).toEqual(hint);
-  });
-
   context('when :starType is img', function() {
     it ('uses alt attribute with given index', function() {
       // given
       var
         element  = this.el[0],
-        options  = {},
+        options  = { starType: 'img' },
         index    = 1,
         instance = new Raty(element, options);
-
-      instance.opt.starType = 'img';
 
       // when
       var attributes = instance._attributesForIndex(index);
@@ -46,13 +24,9 @@ describe('#_attributesForIndex', function() {
       var
         element  = this.el[0],
         name     = 'starOff',
-        options  = {},
+        options  = { path: 'path', starOff: 'star-off.png', starType: 'img' },
         index    = 1,
         instance = new Raty(element, options);
-
-      instance.opt.path     = 'path/';
-      instance.opt.starOff  = 'star-off.png';
-      instance.opt.starType = 'img';
 
       spyOn(Raty.prototype, '_nameForIndex').and.returnValue(name);
 
@@ -68,11 +42,9 @@ describe('#_attributesForIndex', function() {
       var
         element  = this.el[0],
         name     = 'starOff',
-        options  = {},
+        options  = { starType: 'img' },
         index    = 1,
         instance = new Raty(element, options);
-
-      instance.opt.starType = 'img';
 
       // when
       var attributes = instance._attributesForIndex(index);
@@ -86,17 +58,33 @@ describe('#_attributesForIndex', function() {
       var
         element  = this.el[0],
         name     = 'starOff',
-        options  = {},
+        options  = { starType: 'img' },
         index    = 1,
         instance = new Raty(element, options);
-
-      instance.opt.starType = 'img';
 
       // when
       var attributes = instance._attributesForIndex(index);
 
       // then
       expect(attributes['class']).toBeUndefined();
+    });
+
+    it ('sets title with _getHint and given index', function() {
+      // given
+      var
+        element  = this.el[0],
+        hint     = 'double',
+        options  = { starType: 'img' },
+        index    = 1,
+        instance = new Raty(element, options);
+
+      spyOn(Raty.prototype, '_getHint').and.returnValue(hint);
+
+      // when
+      var attributes = instance._attributesForIndex(index);
+
+      // then
+      expect(attributes.title).toEqual(hint);
     });
   });
 
@@ -105,11 +93,9 @@ describe('#_attributesForIndex', function() {
       // given
       var
         element  = this.el[0],
-        options  = {},
+        options  = { starType: 'i' },
         index    = 1,
         instance = new Raty(element, options);
-
-      instance.opt.starType = 'i';
 
       // when
       var attributes = instance._attributesForIndex(index);
@@ -118,18 +104,14 @@ describe('#_attributesForIndex', function() {
       expect(attributes['data-alt']).toEqual(index);
     });
 
-    it ('uses class with :path and returned _nameForIndex', function() {
+    it ('uses class with property name returned _nameForIndex', function() {
       // given
       var
         element  = this.el[0],
         name     = 'starOff',
-        options  = {},
+        options  = { starType: 'i' },
         index    = 1,
         instance = new Raty(element, options);
-
-      instance.opt.path     = 'path/';
-      instance.opt.starOff  = 'star-off.png';
-      instance.opt.starType = 'img';
 
       spyOn(Raty.prototype, '_nameForIndex').and.returnValue(name);
 
@@ -137,7 +119,57 @@ describe('#_attributesForIndex', function() {
       var attributes = instance._attributesForIndex(index);
 
       // then
-      expect(attributes.src).toEqual('path/star-off.png');
+      expect(attributes['class']).toEqual(instance.opt.starOff);
+    });
+
+    it ('does not use alt', function() {
+      // given
+      var
+        element  = this.el[0],
+        name     = 'starOff',
+        options  = { starType: 'i' },
+        index    = 1,
+        instance = new Raty(element, options);
+
+      // when
+      var attributes = instance._attributesForIndex(index);
+
+      // then
+      expect(attributes.alt).toBeUndefined();
+    });
+
+    it ('does not use src', function() {
+      // given
+      var
+        element  = this.el[0],
+        name     = 'starOff',
+        options  = { starType: 'i' },
+        index    = 1,
+        instance = new Raty(element, options);
+
+      // when
+      var attributes = instance._attributesForIndex(index);
+
+      // then
+      expect(attributes.src).toBeUndefined();
+    });
+
+    it ('sets title with _getHint and given index', function() {
+      // given
+      var
+        element  = this.el[0],
+        hint     = 'double',
+        options  = { starType: 'i' },
+        index    = 1,
+        instance = new Raty(element, options);
+
+      spyOn(Raty.prototype, '_getHint').and.returnValue(hint);
+
+      // when
+      var attributes = instance._attributesForIndex(index);
+
+      // then
+      expect(attributes.title).toEqual(hint);
     });
   });
 });
