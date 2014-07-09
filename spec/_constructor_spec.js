@@ -9,8 +9,6 @@ describe('#constructor', function() {
       element = this.el[0],
       options = { key: 'value' };
 
-    spyOn(Raty.prototype, '_create'); // as_null_object
-
     // when
     var instance = new Raty(element, options);
 
@@ -24,8 +22,6 @@ describe('#constructor', function() {
       element = this.el[0],
       options = { key: 'value' };
 
-    spyOn(Raty.prototype, '_create'); // as_null_object
-
     // when
     var instance = new Raty(element, options);
 
@@ -33,21 +29,33 @@ describe('#constructor', function() {
     expect(instance.self).toEqual($(element));
   });
 
-  it ('merges the options in all levels', function() {
-    // given
-    var
-      element = this.el[0],
-      options = { key: 'value', deep: { inner: 'override' } };
+  context('defaults', function() {
+    beforeEach(function() {
+      $.fn.raty.defaults.deep = { inner: 'inner' };
+      $.fn.raty.defaults.keep = 'keep';
+      $.fn.raty.defaults.key  = 'key';
+    });
 
-    $.fn.raty.defaults = { keep: 'keep', deep: { inner: 'inner' } };
+    afterEach(function() {
+      delete $.fn.raty.defaults.deep;
+      delete $.fn.raty.defaults.keep;
+      delete $.fn.raty.defaults.key;
+    });
 
-    spyOn(Raty.prototype, '_create'); // as_null_object
+    it ('merges the options in all levels', function() {
+      // given
+      var
+        element = this.el[0],
+        options = { key: 'value', deep: { inner: 'override' } };
 
-    // when
-    var instance = new Raty(element, options);
+      // when
+      var instance = new Raty(element, options);
 
-    // then
-    expect(instance.opt).toEqual({ keep: 'keep', deep: { inner: 'override' }, key: 'value' });
+      // then
+      expect(instance.opt.keep).toEqual('keep');
+      expect(instance.opt.deep.inner).toEqual('override');
+      expect(instance.opt.key).toEqual('value');
+    });
   });
 
   it ('creates the plugin', function() {
