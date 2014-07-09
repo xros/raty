@@ -24,7 +24,7 @@ describe('#_attributesForIndex', function() {
   });
 
   context('when :starType is img', function() {
-    xit ('uses alt attribute with given index', function() {
+    it ('uses alt attribute with given index', function() {
       // given
       var
         element  = this.el[0],
@@ -41,7 +41,7 @@ describe('#_attributesForIndex', function() {
       expect(attributes.alt).toEqual(index);
     });
 
-    xit ('uses src with :path and returned _nameForIndex', function() {
+    it ('uses src with :path and returned _nameForIndex', function() {
       // given
       var
         element  = this.el[0],
@@ -63,7 +63,7 @@ describe('#_attributesForIndex', function() {
       expect(attributes.src).toEqual('path/star-off.png');
     });
 
-    xit ('does not use data-alt', function() {
+    it ('does not use data-alt', function() {
       // given
       var
         element  = this.el[0],
@@ -73,8 +73,6 @@ describe('#_attributesForIndex', function() {
         instance = new Raty(element, options);
 
       instance.opt.starType = 'img';
-
-      spyOn(Raty.prototype, '_nameForIndex'); // as_null_object
 
       // when
       var attributes = instance._attributesForIndex(index);
@@ -83,7 +81,7 @@ describe('#_attributesForIndex', function() {
       expect(attributes['data-alt']).toBeUndefined();
     });
 
-    xit ('does not use class', function() {
+    it ('does not use class', function() {
       // given
       var
         element  = this.el[0],
@@ -93,8 +91,6 @@ describe('#_attributesForIndex', function() {
         instance = new Raty(element, options);
 
       instance.opt.starType = 'img';
-
-      spyOn(Raty.prototype, '_nameForIndex'); // as_null_object
 
       // when
       var attributes = instance._attributesForIndex(index);
@@ -105,7 +101,7 @@ describe('#_attributesForIndex', function() {
   });
 
   context('when :starType is not img', function() {
-    xit ('uses data-alt attribute with given index', function() {
+    it ('uses data-alt attribute with given index', function() {
       // given
       var
         element  = this.el[0],
@@ -115,8 +111,6 @@ describe('#_attributesForIndex', function() {
 
       instance.opt.starType = 'i';
 
-      spyOn(Raty.prototype, '_nameForIndex'); // as_null_object
-
       // when
       var attributes = instance._attributesForIndex(index);
 
@@ -124,7 +118,7 @@ describe('#_attributesForIndex', function() {
       expect(attributes['data-alt']).toEqual(index);
     });
 
-    xit ('uses class with :path and returned _nameForIndex', function() {
+    it ('uses class with :path and returned _nameForIndex', function() {
       // given
       var
         element  = this.el[0],
