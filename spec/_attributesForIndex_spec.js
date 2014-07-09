@@ -126,7 +126,7 @@ describe('#_attributesForIndex', function() {
         options  = {},
         index    = 1,
         instance = new Raty(element, options);
-console.log(instance.opt);
+
       instance.opt.path     = 'path/';
       instance.opt.starOff  = 'star-off.png';
       instance.opt.starType = 'img';
