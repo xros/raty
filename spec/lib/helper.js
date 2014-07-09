@@ -1,5 +1,9 @@
 isClear = true;
 
+afterEach(function() {
+  Helper.clear();
+});
+
 Helper = {
   _append: function(type, attrs) {
     return $('<' + type + '/>', attrs).appendTo('body');
@@ -138,15 +142,15 @@ function buildComboboxTarget() {
 
 function buildTextareaTarget() {
   $('body').append('<textarea id="hint"></textarea>');
-}
+};
 
 function buildTextTarget() {
   $('body').append('<input id="hint" type="text" />');
-}
+};
 
 function clear() {
   if (isClear) {
     $('#element').remove();
     $('#hint').remove();
   }
-}
+};
