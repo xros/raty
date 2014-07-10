@@ -6,6 +6,8 @@
 
 ### Changes
 
++ Now all options accepts a function callback to defined its value;
+
 ### News
 
 + Added Bower package; (yadhu)
