@@ -57,19 +57,4 @@ describe('#constructor', function() {
       expect(instance.opt.key).toEqual('value');
     });
   });
-
-  it ('creates the plugin', function() {
-    // given
-    var
-      element = this.el[0],
-      options = {};
-
-    spyOn(Raty.prototype, '_create');
-
-    // when
-    new Raty(element, options);
-
-    // then
-    expect(Raty.prototype._create).toHaveBeenCalled();
-  });
 });

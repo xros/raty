@@ -24,7 +24,7 @@ describe('#_attributesForIndex', function() {
       var
         element  = this.el[0],
         name     = 'starOff',
-        options  = { path: 'path', starOff: 'star-off.png', starType: 'img' },
+        options  = { path: 'path', starOff: 'starOff', starType: 'img' },
         index    = 1,
         instance = new Raty(element, options);
 
@@ -34,7 +34,7 @@ describe('#_attributesForIndex', function() {
       var attributes = instance._attributesForIndex(index);
 
       // then
-      expect(attributes.src).toEqual('path/star-off.png');
+      expect(attributes.src).toEqual('pathstarOff');
     });
 
     it ('does not use data-alt', function() {

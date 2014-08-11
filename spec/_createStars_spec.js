@@ -7,11 +7,12 @@ describe('#_createStars', function() {
     it ('creates 3 stars', function() {
       // given
       var
-        element = this.el[0],
-        options = { number: 3 };
+        element  = this.el[0],
+        options  = { number: 3 },
+        instance = new Raty(element, options);
 
       // when
-      var instance = new Raty(element, options);
+      instance._createStars();
 
       // then
       expect(instance.self.children().length).toEqual(3);
@@ -20,13 +21,14 @@ describe('#_createStars', function() {
     it ('sets the right attributes', function() {
       // given
       var
-        element = this.el[0],
-        options = {};
+        element  = this.el[0],
+        options  = {},
+        instance = new Raty(element, options);
 
       spyOn(Raty.prototype, '_attributesForIndex').and.returnValue({ alt: 'alt' });
 
       // when
-      var instance = new Raty(element, options);
+      instance._createStars();
 
       // then
       expect(instance.self.children()).toHaveAttr('alt', 'alt');
@@ -35,11 +37,12 @@ describe('#_createStars', function() {
     it ('uses the :starType to build the star', function() {
       // given
       var
-        element = this.el[0],
-        options = { starType: 'li' };
+        element  = this.el[0],
+        options  = { starType: 'li' },
+        instance = new Raty(element, options);
 
       // when
-      var instance = new Raty(element, options);
+      instance._createStars();
 
       // then
       var stars = instance.self.children();
@@ -55,14 +58,15 @@ describe('#_createStars', function() {
       it ('puts one space between the stars', function() {
         // given
         var
-          element = this.el[0],
-          options = { number: 2, space: true },
-          regex   = /<[a-zA-Z]+>&nbsp;<[a-zA-Z]+>/;
+          element  = this.el[0],
+          options  = { number: 2, space: true },
+          instance = new Raty(element, options),
+          regex    = /<[a-zA-Z]+>&nbsp;<[a-zA-Z]+>/;
 
         spyOn(Raty.prototype, '_attributesForIndex').and.returnValue({});
 
         // when
-        var instance = new Raty(element, options);
+        instance._createStars();
 
         // then
         expect(regex.test(instance.self.html())).toBeTruthy();
@@ -73,14 +77,15 @@ describe('#_createStars', function() {
       it ('does not puts space between the stars', function() {
         // given
         var
-          element = this.el[0],
-          options = { number: 2, space: true },
-          regex   = /<[a-zA-Z]+>&nbsp;<[a-zA-Z]+>/;
+          element  = this.el[0],
+          options  = { number: 2, space: true },
+          instance = new Raty(element, options),
+          regex    = /<[a-zA-Z]+>&nbsp;<[a-zA-Z]+>/;
 
         spyOn(Raty.prototype, '_attributesForIndex').and.returnValue({});
 
         // when
-        var instance = new Raty(element, options);
+        instance._createStars();
 
         // then
         expect(regex.test(instance.self.html())).toBeTruthy();
@@ -90,11 +95,12 @@ describe('#_createStars', function() {
     it ('saves the stars on instance', function() {
       // given
       var
-        element = this.el[0],
-        options = {};
+        element  = this.el[0],
+        options  = {},
+        instance = new Raty(element, options);
 
       // when
-      var instance = new Raty(element, options);
+      instance._createStars();
 
       // then
       expect(instance.stars).toEqual(instance.self.children());

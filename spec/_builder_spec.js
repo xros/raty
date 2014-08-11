@@ -24,33 +24,61 @@ describe('#builder', function() {
     expect(this.el.each).toHaveBeenCalled();
   });
 
+  context('when instance already exists', function() {
+    beforeEach(function() {
+      this.old = this.el.raty();
+    });
+
+    it ('does not instantiate again', function() {
+      // given
+      var instance = this.old.data('raty');
+
+      // when
+      this.el.raty();
+
+      // then
+      expect(this.el.data('raty')).toBe(instance);
+    });
+  });
+
+  context('when instance does not exists', function() {
+    it ('calls :_create', function() {
+      // given
+      spyOn(Raty.prototype, '_create');
+
+      // when
+      this.el.raty('method');
+
+      // then
+      expect(Raty.prototype._create).toHaveBeenCalled();
+    });
+
+    it ('defines a new instance', function() {
+      // given
+
+      // when
+      this.el.raty();
+
+      // then
+      expect(this.el.data('raty')).toEqual(jasmine.any(Raty));
+    });
+  });
+
   context('when options is a method name', function() {
-    Raty.prototype.method = function(a, b, c) {};
+    Raty.prototype.method = function(a, b) {};
 
     context('and it exists', function() {
-      context('and there is not an instance', function() {
-        it ('is created', function() {
-          // given
-
-          // when
-          this.el.raty('method', 'a', 'b', 'c');
-
-          // then
-          expect(this.el.data('raty')).not.toBeUndefined();
-        });
-      });
-
-      it ('is called with given parameters', function() {
+      it ('is called with given args', function() {
         // given
         this.el.raty();
 
         spyOn(Raty.prototype, 'method');
 
         // when
-        this.el.raty('method', 'a', 'b', 'c');
+        this.el.raty('method', 'a', 'b');
 
         // then
-        expect(Raty.prototype.method).toHaveBeenCalledWith('a', 'b', 'c');
+        expect(Raty.prototype.method).toHaveBeenCalledWith('a', 'b');
       });
 
       it ('is called with instance as context', function() {
@@ -62,135 +90,30 @@ describe('#builder', function() {
         spyOn(Raty.prototype.method, 'apply');
 
         // when
-        var chain = this.el.raty('method', 'a', 'b', 'c');
+        var chain = this.el.raty('method', 'a', 'b');
 
         // then
-        expect(Raty.prototype.method.apply).toHaveBeenCalledWith(instance, ['a', 'b', 'c']);
+        expect(Raty.prototype.method.apply).toHaveBeenCalledWith(instance, ['a', 'b']);
       });
     });
   });
 
-  context('when options is a object', function() {
-    var options = { key: 'value' };
-
-    context('with data binded', function() {
-      beforeEach(function() {
-        this.old = this.el.raty(options);
-      });
-
-      it ('does not bind again', function() {
-        // given
-        var key = this.old.data('raty').opt.key;
-
-        // when
-        this.el.raty({ key: 'other' });
-
-        // then
-        expect(this.el.data('raty').opt.key).toEqual(key);
-      });
-    });
-
-    context('without data binded', function() {
-      it ('defines a new instance', function() {
-        // given
-
-        // when
-        this.el.raty(options);
-
-        // then
-        expect(this.el.data('raty')).not.toBeUndefined()
-      });
-    });
-  });
-
-  context('when options is null', function() {
-    var options = null;
-
-    context('with data binded', function() {
-      beforeEach(function() {
-        this.old = this.el.raty(options);
-      });
-
-      it ('does not bind again', function() {
-        // given
-        var key = this.old.data('raty').opt.key;
-
-        // when
-        this.el.raty({ key: 'other' });
-
-        // then
-        expect(this.el.data('raty').opt.key).toEqual(key);
-      });
-    });
-
-    context('without data binded', function() {
-      beforeEach(function() {
-        this.el = Helper.create('#el');
-      });
-
-      it ('defines a new instance', function() {
-        // given
-
-        // when
-        this.el.raty(options);
-
-        // then
-        expect(this.el.data('raty')).not.toBeUndefined()
-      });
-    });
-  });
-
-  context('when options is undefined', function() {
-    var options = undefined;
-
-    context('with data binded', function() {
-      beforeEach(function() {
-        this.old = this.el.raty(options);
-      });
-
-      it ('does not bind again', function() {
-        // given
-        var key = this.old.data('raty').opt.key;
-
-        // when
-        this.el.raty({ key: 'other' });
-
-        // then
-        expect(this.el.data('raty').opt.key).toEqual(key);
-      });
-    });
-
-    context('without data binded', function() {
-      beforeEach(function() {
-        this.el = Helper.create('#el');
-      });
-
-      it ('defines a new instance', function() {
-        // given
-
-        // when
-        this.el.raty(options);
-
-        // then
-        expect(this.el.data('raty')).not.toBeUndefined()
-      });
-    });
-  });
-
-  context('with an invalid option', function() {
+  context('when options is passed', function() {
     var options = 'missing';
 
-    it ('logs the error', function() {
-      // given
-      this.el.raty();
+    context('but is not a method name', function() {
+      it ('logs the error', function() {
+        // given
+        this.el.raty();
 
-      spyOn($, 'error');
+        spyOn($, 'error');
 
-      // when
-      this.el.raty(options);
+        // when
+        this.el.raty(options);
 
-      // then
-      expect($.error).toHaveBeenCalledWith('Method ' + options + ' does not exist!');
+        // then
+        expect($.error).toHaveBeenCalledWith('Method ' + options + ' does not exist!');
+      });
     });
   });
 });
